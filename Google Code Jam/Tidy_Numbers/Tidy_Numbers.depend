@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1491615344 source:/media/karim/14FAFCF960F4BC58/Code/Code Jam/Tidy_Numbers/main.cpp
+	<iostream>
+	<cstring>
+	<stdio.h>
+	<string>
+	<fstream>
+

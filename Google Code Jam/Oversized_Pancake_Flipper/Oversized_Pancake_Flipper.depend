@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1491611209 source:/media/karim/14FAFCF960F4BC58/Code/Code Jam/Oversized_Pancake_Flipper/main.cpp
+	<iostream>
+	<string>
+	<stdio.h>
+	<cstring>
+	<fstream>
+

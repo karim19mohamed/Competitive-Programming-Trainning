@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1492879226 source:/media/karim/14FAFCF960F4BC58/Code/Code Jam/Cruise_Control/main.cpp
+	<iostream>
+	<stdio.h>
+	<fstream>
+	<iomanip>
+

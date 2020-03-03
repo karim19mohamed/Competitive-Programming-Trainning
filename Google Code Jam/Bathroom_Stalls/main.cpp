@@ -1,0 +1,45 @@
+#include <iostream>
+#include <stdio.h>
+#include <cstring>
+#include <queue>
+#include <cmath>
+#include <fstream>
+
+using namespace std;
+int t;
+long long n,k,ansL,ansR;
+priority_queue <pair<long long,pair<long long,long long> > > q;
+ofstream answer;
+
+void bathroom (long long w){
+    for (long long i=0;i<w;i++){
+        long long dis=q.top().first;
+        long long a=q.top().second.first;
+        long long b=q.top().second.second;
+        q.pop();
+        q.push({dis/2,{a,a+(dis/2)}});
+        ansL=(dis/2)-1;
+        q.push({b-(a+(dis/2)),{a+(dis/2),b}});
+        ansR=b-(a+(dis/2))-1;
+        //answer << max(ansL,ansR) << "  " << min(ansL,ansR) << endl;
+    }
+}
+
+int main()
+{
+    answer.open("answer.txt");
+    scanf("%d",&t);
+    for (int i=0;i<t;i++){
+        while (!q.empty()) q.pop();
+        ansL=0;ansR=0;
+        scanf("%lld%lld",&n,&k);
+        q.push({n+1,{0,n+1}});
+        //if (n-(n/2)>=k){
+            bathroom(k);
+            answer<<"Case #"<<i+1<<": "<<max(ansL,ansR)<<" "<<min(ansL,ansR) << endl;
+        //}else{
+            //answer<<"Case #"<<i+1<<": 0 0" << endl;
+        //}
+    }
+    return 0;
+}

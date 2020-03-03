@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1492885552 source:/media/karim/14FAFCF960F4BC58/Code/Code Jam/Stable_Neigh_bors/main.cpp
+	<iostream>
+	<stdio.h>
+	<queue>
+	<cstring>
+	<fstream>
+
