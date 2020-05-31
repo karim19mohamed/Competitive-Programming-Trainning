@@ -6,54 +6,40 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
-///////////////////////////// have problem in a[b[c
 int main() {
-	char s[1000000];
-	while(scanf("%s",s)!=EOF){
+	char s[100009];
+	queue <pair<char,int> > q;
+	while(gets(s)){
+		list <char> mylist1;
 		int len = strlen (s);
-		deque <string> q;
-		//dbg(len);
 		bool direction=0;
-		string ans="",tmp="";
 		for (int i=0;i<len;++i){
 			if (s[i]=='['){
+				q.push({s[i],i});
 				direction=1;
 				continue;
 			}else if (s[i]==']'){
+				q.push({s[i],i});
 				direction=0;
 				continue;
-			}else{
-				if(!direction){
-					if (tmp.size()>0) q.push_front(tmp),tmp="";
-					ans = ans+s[i];
-				}else{
-					if (ans.size()>0) q.push_back(ans),ans="";
-					tmp = tmp+s[i];
-				}
+			}
+			if (!direction) mylist1.push_back(s[i]);
+		}
+		while(!q.empty()){
+			char c=q.front().first;
+			int idx1=q.front().second;
+			q.pop();
+			if (c==']') continue;
+			int idx2=(!q.empty())? q.front().second : len;
+			for (int i=idx2-1;i>=idx1+1;--i){
+				mylist1.push_front(s[i]);
 			}
 		}
-		if (tmp.size()>0) q.push_front(tmp),tmp="";
-		if (ans.size()>0) q.push_back(ans),ans="";
-		while(!q.empty()) printf("%s",&q.front()[0]),q.pop_front();
+		std::list<char>::iterator it;
+		for (it=mylist1.begin(); it!=mylist1.end(); ++it){
+			printf("%c",*it);
+		}
 		printf("\n");
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

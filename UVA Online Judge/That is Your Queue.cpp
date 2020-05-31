@@ -7,37 +7,27 @@ typedef long long ll;
 using namespace std;
 
 int main() {
-	int p,c,cs=1,e;
+	int p,c,cs=1;
 	char ch;
 	while (cin>>p>>c && p){
-		queue <int> q,emergency;
-		map <int,bool> m;
+		list <pair<int,int> > q;
+		map <int,int> cnt;
 		printf("Case %d:\n",cs++);
-		if (p>c) p=c;
-		for(int i=1;i<=p;++i) q.push(i);
+		for(int i=1;i<=min(p,c+1);++i) q.push_back({i,0});
 		for (int i=0;i<c;++i){
     		scanf(" %c",&ch);
-    		int a;
+    		int a,num;
     		if(ch=='N'){
-    			if (!emergency.empty()){
-    				a=emergency.front();
-    				emergency.pop();
-					printf("%d\n",a);
-					q.push(a);
-					m[a]=1;
-					continue;
-    			}
-				while (m[q.front()]){
-					m[q.front()]=0;
-					q.pop();
-				}
-    			a=q.front();
-    			q.pop();
+    			while (cnt[q.front().first]>q.front().second) q.pop_front();
+    			a=q.front().first;
+    			num=q.front().second;
+    			q.pop_front();
+    			q.push_back({a,num+1});
+    			cnt[a]=num+1;
     			printf("%d\n",a);
-    			q.push(a);
     		}else{
-    			scanf("%d",&e);
-    			emergency.push(e);
+    			scanf("%d",&a);
+    			q.push_front({a,cnt[a]+1});
     		}
 		}
 	}

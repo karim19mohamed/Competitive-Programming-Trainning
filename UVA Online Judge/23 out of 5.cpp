@@ -1,56 +1,59 @@
-#include <iostream>
-#include <stdio.h>
-
+#include <bits/stdc++.h>
+typedef long long ll;
+#define dbg(x) cout<<#x<<" = "<<x<<endl
+#define dbg2(x,y) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<endl
+#define dbg3(x,y,z) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<endl
+#define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
-int a[5];
-int s=1;
-bool flag[5];
-int ans;
-void check(int indx,int sum);
 
-int main()
-{
-
-    while(s!=0){
-        for (int i=0;i<5;i++){
-            cin >> a[i];
-        }
-        s=a[0]+a[1]+a[2]+a[3]+a[4];
-        if (s==0) break;
-        //cout << s << endl;
-        for (int j=0;j<5;j++){
-            flag[j]=1;
-            check(3,a[j]);
-            flag[j]=0;
-        }
-        //cout << ans << endl;
-        if (ans!=0){
-            cout << "Possible" << endl;
-        }else{
-            cout << "Impossible" << endl;
-        }
-        ans=0;
-    }
-    return 0;
+int a[5],vis[5];
+bool solve(int num,int idx){
+	if(idx==5){
+		//dbg(num);
+		if (num==23) return 1;
+		return 0;
+	}
+	int res=0;
+	for (int i=0;i<5;++i){
+		if (vis[i]) continue;
+		vis[i]=1;
+		res+=solve(num+a[i],idx+1);
+		if (idx!=0){
+			res+=solve(num-a[i],idx+1);
+			res+=solve(num*a[i],idx+1);
+		}
+		vis[i]=0;
+	}
+	return res>0;
 }
-void check(int indx,int sum){
-    if (indx==-1){
-        //cout << sum << endl;
-        if(sum==23) {
-            //cout << sum << endl;
-            ans=1;
-            return ;
-            }
-        if(sum!=23) return;
-    }
 
-    for (int i=0;i<5;i++){
-        if (flag[i]==0){
-            flag[i]=1;
-            check(indx-1,sum+a[i]);
-            check(indx-1,sum-a[i]);
-            check(indx-1,sum*a[i]);
-            flag[i]=0;
-        }
-    }
+
+int main() {
+
+	while(1){
+		int idx=0;
+		for (int i=0;i<5;++i){
+			scanf("%d",&a[i]);
+			if (a[i]==0) ++idx;
+		}
+		if (idx==5) break;
+		(solve(0,0))? puts("Possible"):puts("Impossible");
+	}
+	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

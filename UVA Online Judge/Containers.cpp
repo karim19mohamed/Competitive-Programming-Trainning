@@ -7,25 +7,41 @@ typedef long long ll;
 using namespace std;
 
 int main() {
-	int n;
 	string s;
-	scanf("%d",&n);
-	getline(std::cin,s);
-	while(n--){
-		getline(std::cin,s);
-		bool ans=1;
-		stack <char> chk;
+	int cs=1;
+	while(cin>>s && s!="end"){
+		vector<char> v;
 		for (int i=0;i<s.size();++i){
-			if (s[i]=='(' || s[i]=='[') chk.push(s[i]);
-			else if (s[i]==')' || s[i]==']'){
-				if (chk.empty() || (chk.top()!='[' && s[i]==']') || (chk.top()!='(' && s[i]==')') ){
-					ans=0;
+			bool found=0;
+			for (int j=0;j<v.size();++j){
+				if (v[j]>=s[i]){
+					v[j]=s[i];
+					found=1;
 					break;
 				}
-				chk.pop();
 			}
+			if(!found) v.push_back(s[i]);
 		}
-		(ans && chk.empty())? puts("Yes") : puts("No");
+		int ans=v.size();
+		printf("Case %d: %d\n",cs++,ans);
 	}
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

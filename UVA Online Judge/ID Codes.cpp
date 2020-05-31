@@ -6,26 +6,45 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
+
 int main() {
-	int n;
 	string s;
-	scanf("%d",&n);
-	getline(std::cin,s);
-	while(n--){
-		getline(std::cin,s);
-		bool ans=1;
-		stack <char> chk;
+	while(cin>>s && s[0]!='#'){
+		bool ans=0;
+		int idx_least_from_left,idx_first_greater_from_right,sz=s.size();
 		for (int i=0;i<s.size();++i){
-			if (s[i]=='(' || s[i]=='[') chk.push(s[i]);
-			else if (s[i]==')' || s[i]==']'){
-				if (chk.empty() || (chk.top()!='[' && s[i]==']') || (chk.top()!='(' && s[i]==')') ){
-					ans=0;
+			for (int j=s.size()-1;j>i;--j){
+				if (s[i]<s[j]){
+					idx_least_from_left=i;
+					idx_first_greater_from_right=j;
+					ans=1;
 					break;
 				}
-				chk.pop();
 			}
 		}
-		(ans && chk.empty())? puts("Yes") : puts("No");
+		swap(s[idx_least_from_left],s[idx_first_greater_from_right]);
+		sort(s.begin()+idx_least_from_left+1,s.begin()+sz);
+		if (ans) cout<<s<<endl;
+		else puts("No Successor");
 	}
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

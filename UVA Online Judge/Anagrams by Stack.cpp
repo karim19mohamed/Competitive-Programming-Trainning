@@ -1,53 +1,69 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <stack>
-
+#include <bits/stdc++.h>
+typedef long long ll;
+#define dbg(x) cout<<#x<<" = "<<x<<endl
+#define dbg2(x,y) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<endl
+#define dbg3(x,y,z) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<endl
+#define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
-string s1,s2,game,res;
-vector <string> ans;
-stack <char> a;
 
-int main()
-{
-    while (cin >> s1 >> s2){
-        cout << "[" << endl;
-        int n=s1.size();
-        for (int i=0;i<s1.size();i++) game=game+'i';
-        for (int i=0;i<s1.size();i++) game=game+'o';
-        do{
-            int ind=0;
-            bool k=0;
-            for (int i=0;i<2*n;i++){
-                if (game[i]=='i') ind++;
-                else ind--;
-                if (ind<0){
-                    k=1;
-                    break;
-                }
-            }
-            if (k) continue;
-            int z=0;
-            int p=0;
-            for (int i=0;i<game.size();i++){
-                if (game[i]=='i'){
-                    a.push(s1[z]);
-                    z++;
-                }else{
-                    if (a.top()!=s2[p]) break;
-                    res=res+a.top();
-                    a.pop();
-                    p++;
-                }
-            }
-            if (res==s2){
-                cout << game << endl;
-            }
-            res="";
-        }while (next_permutation(game.begin(),game.end()));
-        game="";
-        cout << "]" << endl;
-    }
-    return 0;
+int test;
+queue <string> q;
+string a,b;
+void stack_orders(stack<char> s,string ans,int idx_a,int idx_b ){
+	if (idx_a==a.size() && idx_b==b.size()){
+		//cout << ans << endl;
+		q.push(ans);
+		return;
+	}
+	if (idx_a==a.size() && !s.empty()) if (s.top()!=b[idx_b]) return;
+
+	//cout << ans << endl;//cin>> test;
+	s.push(a[idx_a]);
+	if (idx_a<a.size()) stack_orders(s,ans+"i ",idx_a+1,idx_b);
+	s.pop();
+	if (!s.empty() && s.top()==b[idx_b]){
+		s.pop();
+		if (idx_b<b.size()){
+			(idx_b<b.size()-1)? stack_orders(s,ans+"o ",idx_a,idx_b+1):stack_orders(s,ans+"o",idx_a,idx_b+1);
+		}
+	}
 }
+
+int main() {
+
+	while(cin>>a>>b){
+		if (a.size()!=b.size()){
+			printf("[\n]\n");
+			continue;
+		}
+		stack<char> s;
+		stack_orders(s,"",0,0);
+		printf("[\n");
+		while(!q.empty()){
+			cout << q.front() << endl;
+			q.pop();
+		}
+		printf("]\n");
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

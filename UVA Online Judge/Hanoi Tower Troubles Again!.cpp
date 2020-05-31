@@ -6,26 +6,48 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
+
 int main() {
-	int n;
-	string s;
-	scanf("%d",&n);
-	getline(std::cin,s);
-	while(n--){
-		getline(std::cin,s);
-		bool ans=1;
-		stack <char> chk;
-		for (int i=0;i<s.size();++i){
-			if (s[i]=='(' || s[i]=='[') chk.push(s[i]);
-			else if (s[i]==')' || s[i]==']'){
-				if (chk.empty() || (chk.top()!='[' && s[i]==']') || (chk.top()!='(' && s[i]==')') ){
-					ans=0;
+	int t,n;
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d",&n);
+		vector <int> v(n,0);
+		int ans=1;
+		bool change=1;
+		while(change){
+			change=0;
+			for(int i=0;i<n;++i){
+				if (v[i]==0){
+					v[i]=ans++,change=1;
 					break;
+				}else{
+					int tmp=sqrt(ans+v[i]);
+					if (tmp*tmp==ans+v[i]){
+						v[i]=ans++,change=1;
+						break;
+					}
 				}
-				chk.pop();
 			}
 		}
-		(ans && chk.empty())? puts("Yes") : puts("No");
+		printf("%d\n",ans-1);
+		//for(int i=0;i<n;++i) dbg(v[i]);
 	}
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

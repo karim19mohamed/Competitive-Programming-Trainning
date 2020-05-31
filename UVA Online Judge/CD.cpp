@@ -1,74 +1,47 @@
-#include <iostream>
-#include <queue>
-
+#include <bits/stdc++.h>
+typedef long long ll;
+#define dbg(x) cout<<#x<<" = "<<x<<endl
+#define dbg2(x,y) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<endl
+#define dbg3(x,y,z) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<endl
+#define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
-long long tap,n;
-long long cd[29];
-bool flag[29];
-priority_queue <pair <int,long long> > arr;
-pair <int,int> foo;
-long long ans,k;
-int num,x;
-void music (long long indx,long long sum,int s);
 
-int main()
-{
-    cin >> tap >> n;
-    for (int i=0;i<n;i++) cin >> cd[i];
-    music (n,0,0);
-    k=ans;
-    for (int i=0;i<n;i++){
-        k-=cd[i];
-        x++;
-        foo=make_pair(-1*i,cd[i]);
-        arr.push(foo);
-        for (int j=0;j<n;j++){
-            if (cd[j]<=k && j!=i){
-                k-=cd[j];
-                foo=make_pair(-1*j,cd[j]);
-                arr.push(foo);
-                x++;
-            }
-        }
-        cout << x << " " << num << " " << k << endl;
-        if (x==num){
-            if (k==0) {
-                while (arr.empty()!=1) {
-                    cout << arr.top().second << " ";
-                    arr.pop();
-                }
-                break;
-            }
-        }
-        x=0;
-        k=ans;
-        while (arr.empty()!=1) arr.pop();
-    }
-    cout << "sum:" << ans << endl;
-    return 0;
-}
-void music (long long indx,long long sum,int s){
-    if (indx+1==0) return;
-    if (sum<=tap){
-        if (sum>ans) num=s;
-        else if (sum==ans) num=max(num,s);
-        ans=max(ans,sum);
-    }
-    if (sum>tap){
-        return;
-    }
+int n,t,a[29];
+map <int,string> m;
+int solve (int idx,int num,string s){
+	if (idx==t){
+		if (num<=n) m[num]=s;
+		return (num<=n)? num : 0;
+	}
+	int res=max(solve(idx+1,num,s+"0"),solve(idx+1,num+a[idx],s+"1"));
 
-    for (int i=0;i<n;i++){
-        if (flag[i]==0){
-            flag[i]=1;
-            music (indx-1,sum+cd[i],s+1);
-            flag[i]=0;
-        }
-    }
+	return res;
 }
-/*
-ans=0;
-k=0;
-num=0;
-x=0;
-*/
+
+
+int main() {
+	while (cin>>n){
+		scanf("%d",&t);
+		for (int i=0;i<t;++i) scanf("%d",&a[i]);
+		int sum=solve(0,0,"");
+		for (int i=0;i<m[sum].size();++i) if (m[sum][i]=='1') printf("%d ",a[i]);
+		printf("sum:%d\n",sum);
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
