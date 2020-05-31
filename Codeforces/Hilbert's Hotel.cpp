@@ -7,34 +7,31 @@ typedef long long ll;
 using namespace std;
 
 
-
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
-	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
+	int t,n,a[1000009];
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d",&n);
+		int shft=ceil(1000000009/n)*n;
+		int k=0;
+		for (int i=0;i<n;++i){
+			scanf("%d",&a[i]);
+			a[i]=(a[i]+shft+k)%n;
+			++k;
 		}
-		printf("%d\n",s);
+		bool ans=1;
+		map<int,bool> vis;
+		for (int i=0;i<n;++i){
+			if (!vis[a[i]]) vis[a[i]]=1;
+			else{
+				ans=0;
+				break;
+			}
+		}
+		(ans)? puts("YES"):puts("NO");
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 

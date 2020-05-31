@@ -1,3 +1,4 @@
+// https://practice.geeksforgeeks.org/problems/check-for-balanced-tree/1
 #include <bits/stdc++.h>
 typedef long long ll;
 #define dbg(x) cout<<#x<<" = "<<x<<endl
@@ -6,35 +7,28 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
-
-
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
-	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
+	int t;
+	ll n,k;
+	scanf("%d",&t);
+	while(t--){
+		scanf("%lld %lld",&n,&k);
+		ll l,div,rem,pos;
+		l=n-1;
+		div=k/l;
+		rem=k%l;
+		pos=div*n;
+		if (rem==0){
+			printf("%lld\n",pos-1);
+		}else if(rem==1){
+			printf("%lld\n",pos+1);
+		}else{
+			printf("%lld\n",pos+rem);
 		}
-		printf("%d\n",s);
+
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 

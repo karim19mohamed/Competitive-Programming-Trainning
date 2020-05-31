@@ -6,27 +6,33 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
-
-
+bool valid (ll mid,ll k,ll n){
+	ll sum=(k+2)+(k*(k+1)/2)-(mid*(mid+1)/2);
+	//dbg4(k,mid_idx,mid,sum);
+	return sum>=n;
+}
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
+	ll n,k,ans;
+	cin>>n>>k;
+	if (n==1){
+		puts("0");
+		return 0;
+	}else if (k>=n){
+		puts("1");
+		return 0;
 	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
-		}
-		printf("%d\n",s);
+
+	ll s=0,e=k-2;
+	while(s<e){
+		ll mid=s+(e-s+1)/2;
+		(valid(mid-1,k-2,n))? s=mid : e=mid-1;
 	}
+	(valid(s-1,k-2,n))? cout<<k-s<<endl:cout<<-1<<endl;
 	return 0;
 }
+
+
+
 
 
 

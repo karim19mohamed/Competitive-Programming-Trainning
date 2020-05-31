@@ -6,27 +6,34 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
-
+int n,k,a[100009];
+bool valid(int l){
+	int num=1,curr=a[0];
+	for(int i=0;i<n;++i){
+		if (a[i]-curr+1>l) ++num,curr=a[i];
+	}
+	//dbg2(l,num);
+	return (num<=k);
+}
 
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
-	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
+	int t;
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d %d",&n,&k);
+		for(int i=0;i<n;++i) scanf("%d",&a[i]);
+
+		int st=0,et=10000000000;
+		while(st<et){
+			int mid=st+(et-st)/2;
+			(valid(mid))? et=mid : st=mid+1;
 		}
-		printf("%d\n",s);
+		cout<< st << endl;
 	}
 	return 0;
 }
+
+
 
 
 

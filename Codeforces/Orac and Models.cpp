@@ -7,34 +7,30 @@ typedef long long ll;
 using namespace std;
 
 
-
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
-	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
+	int t,n;
+	ll sz[1000009];
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d",&n);
+		int ans=1;
+		for (int i=1;i<=n;++i) scanf("%lld",&sz[i]);
+		vector <int> v (n+1,1);
+		for (int i=n;i>=1;--i){
+			int tmp=1;
+			for (int j=2;i*j<n+1;++j){
+				if (sz[i*j]>sz[i]) tmp=max(tmp,v[i]+v[i*j]);
+			}
+			v[i]=tmp;
 		}
-		printf("%d\n",s);
+		for (int i=1;i<=n;++i){
+			//dbg2(i,v[i]);
+			ans=max(ans,v[i]);
+		}
+		printf("%d\n",ans);
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 

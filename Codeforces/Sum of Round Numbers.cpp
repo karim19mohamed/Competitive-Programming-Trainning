@@ -1,3 +1,4 @@
+// https://practice.geeksforgeeks.org/problems/check-for-balanced-tree/1
 #include <bits/stdc++.h>
 typedef long long ll;
 #define dbg(x) cout<<#x<<" = "<<x<<endl
@@ -6,35 +7,28 @@ typedef long long ll;
 #define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
 using namespace std;
 
-
-
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
-	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
+	int t,n,k,tens;
+	int ans[10];
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d",&n);
+		k=0;
+		tens=1;
+		while(n){
+			if (n%10){
+				ans[k]=n%10;
+				ans[k]*=tens;
+				++k;
+			}
+			n/=10;
+			tens*=10;
 		}
-		printf("%d\n",s);
+		printf("%d\n",k);
+		for(int i=0;i<k;++i) cout<<ans[i]<<" \n"[i==k-1];
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 

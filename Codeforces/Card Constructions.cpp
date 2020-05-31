@@ -7,34 +7,30 @@ typedef long long ll;
 using namespace std;
 
 
-
 int main() {
-	int n,m,a[100009],cdf[100009],q;
-	scanf("%d",&n);
-	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
-		cdf[i]=cdf[i-1]+a[i];
+	int t,n,tmp=5;
+	scanf("%d",&t);
+	vector <int> pyramid;
+	pyramid.push_back(2);
+	while (pyramid.back()<1000000001){
+		pyramid.push_back(pyramid.back()+tmp);
+		tmp+=3;
 	}
-	scanf("%d",&m);
-	for (int i=0;i<m;++i){
-		scanf("%d",&q);
-		int s=0,e=n;
-		while(s<e){
-			int mid=s+(e-s)/2;
-			(cdf[mid]<q)? s=mid+1 : e=mid;
+	//dbg(pyramid.size());
+	while(t--){
+		scanf("%d",&n);
+		int ans=0;
+		for(int i=pyramid.size()-1;i>=0;--i){
+			if (n-pyramid[i]>=0){
+				int d=n/pyramid[i];
+				n-=pyramid[i]*d,ans+=d;
+			}
+			if (n==1 || n==0) break;
 		}
-		printf("%d\n",s);
+		printf("%d\n",ans);
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
 
 
 
