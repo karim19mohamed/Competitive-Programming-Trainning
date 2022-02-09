@@ -1,33 +1,56 @@
-#include <iostream>
-#include <stdio.h>
-#include <set>
-#include <queue>
-#include <map>
-#include <cmath>
-
+#include <bits/stdc++.h>
+typedef long long ll;
+#define dbg(x) cout<<#x<<" = "<<x<<endl
+#define dbg2(x,y) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<endl
+#define dbg3(x,y,z) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<endl
+#define dbg4(x,y,z,q) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<endl
+#define dbg5(x,y,z,q,k) cout<<#x<<" = "<<x<<", "<<#y<<" = "<<y<<", "<<#z<<" = "<<z<<", "<<#q<<" = "<<q<<", "<<#k<<" = "<<k<<endl
+#define dbg_array(x,sz) for (int i = 0; i < sz; ++i) cout << x[i] << " \n"[i==sz-1]
 using namespace std;
-long long n,k,j;
-long long h[1000009],sum_j;
 
-int main()
-{
-    scanf("%lld %lld",&n,&k);
-    for (long long i=0;i<n;++i) scanf("%lld",&h[i]);
-    j=1;
-    for (long long i=0;i<k;++i) sum_j+=h[i];
-    long long sum=sum_j;
-    for (long long i=1;i<n-k+1;++i){
-        if (k!=1){
-            sum=sum-h[i-1]+h[i+k-1];
-        }else{
-            sum=h[i];
-        }
-        if (sum<sum_j){
-            sum_j=sum;
-            j=i+1;
-        }
-        //cout << sum_j << "  " << sum << "  " << h[i] << "  " << h[i+k-1] << endl;
-    }
-    printf("%lld\n",j);
-    return 0;
+const int N = 200 + 9, M = 4e4 + 9, Max_ans = 200 * 2000 + 9;
+int n, a, b, h[N];
+
+int dp[2][N][M][3];
+int solve(int idx, int col_a, int col_b, int last) { // 1 a 0 b
+	if (idx < 0)
+		return 0;
+	if (~dp[0][idx][col_a][last])
+		return dp[0][idx][col_a][last];
+	if (~dp[1][idx][col_b][last])
+		return dp[1][idx][col_b][last];
+	int ret = Max_ans;
+	int unattrack = (idx != n - 1) ? min(h[idx], h[idx + 1]) : 0;
+	if (last) {
+		if (h[idx] <= col_a)
+			ret = min(ret, solve(idx - 1, col_a - h[idx], col_b, 1));
+		if (h[idx] <= col_b)
+			ret = min(ret,
+					unattrack + solve(idx - 1, col_a, col_b - h[idx], 0));
+	}
+	if (!last) {
+		if (h[idx] <= col_b)
+			ret = min(ret, solve(idx - 1, col_a, col_b - h[idx], 0));
+		if (h[idx] <= col_a)
+			ret = min(ret,
+					unattrack + solve(idx - 1, col_a - h[idx], col_b, 1));
+	}
+	dp[0][idx][col_a][last] = dp[1][idx][col_b][last] = ret;
+	return ret;
 }
+
+int main() {
+	ios_base::sync_with_stdio(0), cin.tie(0);
+#ifdef ECLIPSE
+	freopen("input.in", "rt", stdin);
+//freopen("output.out", "wt", stdout);
+#endif
+	cin >> n >> a >> b;
+	for (int i = 0; i < n; ++i)
+		cin >> h[i];
+	memset(dp, -1, sizeof(dp));
+	int ans = solve(n - 1, a, b, 2);
+	(ans < 200 * 200 * 3) ? printf("%d\n", ans) : puts("-1");
+	return 0;
+}
+
